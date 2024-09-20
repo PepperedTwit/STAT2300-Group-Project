@@ -73,17 +73,46 @@ Jacob \textsc{Saunders}, C3262240\\
 
 \section*{Subject area}:
 
+Diabetes is a chronic metabolic disorder characterized by elevated blood glucose levels. It affects millions of people worldwide and is associated with various health complications. Early detection and management of diabetes are crucial for improving patient outcomes and quality of life.
+
+In this project, we aim to explore the relationships between various physiological factors and diabetes progression. We will analyze the Sklearn Diabetes Dataset, which contains several medical predictor variables and a quantitative measure of disease progression one year after baseline. Our goal is to investigate which factors are most strongly associated with diabetes progression and to develop statistical models that can help predict the severity of the disease.
+
 \section*{Data set}:
+
+We will use the Sklearn Diabetes Dataset, which is a built-in dataset in the scikit-learn library in Python. This dataset contains information from 442 diabetes patients and includes the following attributes:
+
+\begin{enumerate}
+    \item age: Age in years
+    \item sex: Gender of the patient
+    \item bmi: Body mass index
+    \item bp: Average blood pressure
+    \item s1: Total serum cholesterol (tc)
+    \item s2: Low-density lipoproteins (ldl)
+    \item s3: High-density lipoproteins (hdl)
+    \item s4: Total cholesterol / HDL (tch)
+    \item s5: Possibly log of serum triglycerides level (ltg)
+    \item s6: Blood sugar level (glu)
+\end{enumerate}
+
+The target variable is a quantitative measure of disease progression one year after baseline.
+
+To ensure reproducibility, we will use Python's scikit-learn library to load the dataset and export it to a CSV file, which we will then share with our project files.
 
 \section*{Topics covered}:
 
-\subsubsection*{ -Topic 1- }
+We will apply the following methods from STAT2300 to analyze the Sklearn Diabetes Dataset:
 
-\subsubsection*{ -Topic 2- }
+\subsubsection*{Maximum Likelihood Estimation (MLE)}
+We will use MLE to estimate the parameters of a multiple linear regression model that predicts diabetes progression based on the given physiological factors. This will help us understand which factors have the strongest influence on disease progression.
 
-\subsubsection*{ -Topic 3- }
+\subsubsection*{QQ Plot and Kolmogorov-Smirnov Test}
+After fitting the linear regression model, we will examine the residuals to check if they follow a normal distribution. We will create a QQ plot to visually assess the normality of the residuals and perform a Kolmogorov-Smirnov test to formally test whether it is reasonable to assume that the residuals follow a normal distribution.
 
-\subsubsection*{ -Topic 4- }
+\subsubsection*{Confidence Intervals using the Newton-Raphson Method}
+We will compute 95\% confidence intervals for the regression coefficients using the likelihood interval obtained through the Newton-Raphson method. This will provide a range of plausible values for each coefficient, helping us understand the uncertainty in our estimates.
+
+\subsubsection*{Likelihood Ratio Test}
+We will perform a likelihood ratio test to compare our full model (including all predictors) to a reduced model that excludes one or more variables. This will help us determine whether certain predictors significantly improve the model's fit and should be retained in our final model for predicting diabetes progression.
 
 %----------------------------------------------------------------------------------------
 %	Bibliography
