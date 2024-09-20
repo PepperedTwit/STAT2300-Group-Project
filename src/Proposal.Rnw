@@ -39,16 +39,16 @@ knitr::opts_chunk$set(fig.path='assets/')
 \begin{titlepage}
 \center{}
 \textsc{\LARGE The University of Newcastle}\\[0.5cm]
-\textsc{\large College of -fedwf7dvdf6-- }\\[0.5cm]
-\textsc{\large School of --- }\\[0.5cm]
+\textsc{\large College of Engineering, Science and Environment}\\[0.5cm]
+\textsc{\large School of Information and Physical Sciences}\\[0.5cm]
 \includegraphics[scale=.3]{assets/_uni_logo.png}\\[0.5cm]
-\textsc{\Large CourseName }\\[0.3cm]
-\textsc{\Large CourseCode: SemesterNumber, Year}\\[0.3cm]
+\textsc{\Large Statistical Inference}\\[0.3cm]
+\textsc{\Large STAT2300: Semester 2, 2024}\\[0.3cm]
 
 % TITLE BAR
 
 \HRule{} \\[0.4cm]
-{\huge \bfseries AssignmentName } \\ [0.4cm]
+{\huge \bfseries Group Project - Proposal } \\ [0.4cm]
 \HRule{} \\[1cm]
 
 % AUTHOR SECTION
@@ -56,6 +56,7 @@ knitr::opts_chunk$set(fig.path='assets/')
 \begin{minipage}{1.0\textwidth}
 \begin{flushleft} \large
 \emph{Author (s):}\\
+Nathan \textsc{Hill}, C3334136\\
 Jacob \textsc{Saunders}, C3262240\\
 \end{flushleft}
 \end{minipage}\\[1.5cm]
@@ -70,10 +71,19 @@ Jacob \textsc{Saunders}, C3262240\\
 %	Document Contents
 %----------------------------------------------------------------------------------------
 
+\section*{Subject area}:
 
+\section*{Data set}:
 
+\section*{Topics covered}:
 
+\subsubsection*{ -Topic 1- }
 
+\subsubsection*{ -Topic 2- }
+
+\subsubsection*{ -Topic 3- }
+
+\subsubsection*{ -Topic 4- }
 
 %----------------------------------------------------------------------------------------
 %	Bibliography
