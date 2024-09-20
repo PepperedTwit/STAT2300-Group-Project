@@ -71,15 +71,15 @@ Jacob \textsc{Saunders}, C3262240\\
 %	Document Contents
 %----------------------------------------------------------------------------------------
 
-\section*{Subject area}:
+\section*{Subject area:}
 
-Diabetes is a chronic metabolic disorder characterized by elevated blood glucose levels. It affects millions of people worldwide and is associated with various health complications. Early detection and management of diabetes are crucial for improving patient outcomes and quality of life.
+Diabetes is a chronic metabolic disorder characterised by elevated blood glucose levels, affecting millions worldwide. Understanding the relationships between various physiological factors and diabetes progression is crucial for improving patient care and developing effective intervention strategies.
 
-In this project, we aim to explore the relationships between various physiological factors and diabetes progression. We will analyze the Sklearn Diabetes Dataset, which contains several medical predictor variables and a quantitative measure of disease progression one year after baseline. Our goal is to investigate which factors are most strongly associated with diabetes progression and to develop statistical models that can help predict the severity of the disease.
+In this project, we aim to conduct statistical inference on the Scikit-learn Diabetes Dataset, which contains several medical predictor variables and a quantitative measure of disease progression one year after baseline. Our goal is to investigate which factors are most strongly associated with diabetes progression and to draw meaningful inferences about the population of diabetes patients based on this sample.
 
-\section*{Data set}:
+\section*{Data set:}
 
-We will use the Sklearn Diabetes Dataset, which is a built-in dataset in the scikit-learn library in Python. This dataset contains information from 442 diabetes patients and includes the following attributes:
+We will use the Scikit-learn Diabetes Dataset, which contains information from 442 diabetes patients. The dataset includes the following attributes:
 
 \begin{enumerate}
     \item age: Age in years
@@ -98,21 +98,25 @@ The target variable is a quantitative measure of disease progression one year af
 
 To ensure reproducibility, we will use Python's scikit-learn library to load the dataset and export it to a CSV file, which we will then share with our project files.
 
-\section*{Topics covered}:
+\section*{Topics covered:}
 
-We will apply the following methods from STAT2300 to analyze the Sklearn Diabetes Dataset:
+We will apply the following methods to analyse the Sklearn Diabetes Dataset:
 
 \subsubsection*{Maximum Likelihood Estimation (MLE)}
-We will use MLE to estimate the parameters of a multiple linear regression model that predicts diabetes progression based on the given physiological factors. This will help us understand which factors have the strongest influence on disease progression.
-
-\subsubsection*{QQ Plot and Kolmogorov-Smirnov Test}
-After fitting the linear regression model, we will examine the residuals to check if they follow a normal distribution. We will create a QQ plot to visually assess the normality of the residuals and perform a Kolmogorov-Smirnov test to formally test whether it is reasonable to assume that the residuals follow a normal distribution.
-
-\subsubsection*{Confidence Intervals using the Newton-Raphson Method}
-We will compute 95\% confidence intervals for the regression coefficients using the likelihood interval obtained through the Newton-Raphson method. This will provide a range of plausible values for each coefficient, helping us understand the uncertainty in our estimates.
+We will use MLE to estimate the parameters of a statistical model that describes the relationship between BMI and diabetes progression. This will help us understand the strength and nature of BMI effect on the population.
 
 \subsubsection*{Likelihood Ratio Test}
-We will perform a likelihood ratio test to compare our full model (including all predictors) to a reduced model that excludes one or more variables. This will help us determine whether certain predictors significantly improve the model's fit and should be retained in our final model for predicting diabetes progression.
+We will perform a likelihood ratio test to compare two nested models: one that includes only BMI as a predictor of diabetes progression, and another that includes both BMI and age. This will help us determine whether adding age significantly improves our understanding of diabetes progression.
+
+\subsubsection*{Confidence Intervals using the Newton-Raphson Method}
+We will compute 95\% confidence intervals for the parameters estimated in our MLE model using the likelihood interval obtained through the Newton-Raphson method. This will provide a range of plausible values for each parameter in the population, helping us understand the uncertainty in our estimates.
+
+\subsubsection*{Bootstrap Confidence Intervals}
+We will use the bootstrap method to construct confidence intervals for the correlation coefficient between blood pressure and diabetes progression. This non-parametric approach will allow us to make inferences about the strength of this relationship in the population without making strong distributional assumptions.
+
+\section*{Conclusion:}
+
+By applying these statistical inference methods to the Scikit-learn Diabetes Dataset, we aim to draw meaningful conclusions about the relationships between physiological factors and diabetes progression in the broader population of diabetes patients. This analysis could potentially contribute to our understanding of diabetes risk factors and inform future research directions.
 
 %----------------------------------------------------------------------------------------
 %	Bibliography
