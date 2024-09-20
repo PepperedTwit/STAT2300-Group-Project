@@ -1,0 +1,85 @@
+\documentclass[10pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsfonts}
+\usepackage{attachfile}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{wrapfig}
+\usepackage[colorinlistoftodos]{todonotes}
+% For including and formatting code
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Define global constants
+\setlength{\marginparwidth}{2cm} % Adjusting marginparwidth for todonotes
+\setlength{\intextsep}{5pt} % Vertical space above & below [h] floats
+\setlength{\columnsep}{10pt} % Space between columns
+\setlength{\abovecaptionskip}{0pt} % Space above caption
+\setlength{\belowcaptionskip}{10pt} % Space below caption
+\geometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm} % Set the page to landscape with custom margins
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}  % Defines a new command for the horizontal lines, change thickness here
+\newcommand{\SubSec}[1]{\vspace{1em}\noindent\textsc{\textbf{#1}}\vspace{0.5em} \\} % Custom command to mimic subsections
+\newcommand{\Answer}{\vspace{0.2cm}\textbf{Answer:}\vspace{0.2cm}}
+
+% R Libraries import
+<<setup, include=FALSE>>=
+knitr::opts_chunk$set(fig.path='assets/')
+@
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+% Title Page
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+\center{}
+\textsc{\LARGE The University of Newcastle}\\[0.5cm]
+\textsc{\large College of -fedwf7dvdf6-- }\\[0.5cm]
+\textsc{\large School of --- }\\[0.5cm]
+\includegraphics[scale=.3]{assets/_uni_logo.png}\\[0.5cm]
+\textsc{\Large CourseName }\\[0.3cm]
+\textsc{\Large CourseCode: SemesterNumber, Year}\\[0.3cm]
+
+% TITLE BAR
+
+\HRule{} \\[0.4cm]
+{\huge \bfseries AssignmentName } \\ [0.4cm]
+\HRule{} \\[1cm]
+
+% AUTHOR SECTION
+
+\begin{minipage}{1.0\textwidth}
+\begin{flushleft} \large
+\emph{Author (s):}\\
+Jacob \textsc{Saunders}, C3262240\\
+\end{flushleft}
+\end{minipage}\\[1.5cm]
+
+% DATE SECTION
+
+\vfill % Fill the rest of the page with whitespace
+{\large \today} \\ [1.5cm] % Adjusted spacing here
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	Document Contents
+%----------------------------------------------------------------------------------------
+
+
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	Bibliography
+%----------------------------------------------------------------------------------------
+
+\bibliographystyle{elsarticle-num}
+\bibliography{assets/_biblo.bib}
+
+\end{document}
