@@ -55,3 +55,4 @@ plot(diabetes$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "R
 # that is just not explained by BMI. This is reasonable given the data is 10
 # variables and you would assume that the other 9 are not all redundant and
 # cannot be predicted by BMI alone even though there is some correlation.
+
