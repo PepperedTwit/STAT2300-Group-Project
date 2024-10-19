@@ -81,7 +81,7 @@ LRT_stat = 2 * (logLik_model2 - logLik_model1)
 df = df.residual(model1) - df.residual(model2)
 
 # Compute the p-value for the test
-p_value <- pchisq(LRT_stat, df = df, lower.tail = FALSE)
+p_value = pchisq(LRT_stat, df = df, lower.tail = FALSE)
 
 # Print the result
 cat("Likelihood Ratio Test Statistic:", LRT_stat, "\n")
