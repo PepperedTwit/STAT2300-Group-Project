@@ -1,30 +1,30 @@
 #STAT2300 Report
 
-diabetes = read.csv("diabetes.csv", header = TRUE)
+diabetes <- read.csv("./dat/diabetes.csv", header = TRUE)
 head(diabetes)
 
-neg_log_likelihood = function(params, data) {
+neg_log_likelihood <- function(params, data) {
   # Extract the parameters
-  beta0 = params[1]        # Intercept
-  beta1 = params[2]        # Slope
-  sigma = params[3]        # Standard Deviation
+  beta0 <- params[1]        # Intercept
+  beta1 <- params[2]        # Slope
+  sigma <- params[3]        # Standard Deviation
   
   # Extract dependent and independent variables
-  x = data$bmi
-  y = data$target
+  x <- data$bmi
+  y <- data$target
   
   # Predicted value of a linear model
-  y_pred = beta0 + beta1 * x
+  y_pred <- beta0 + beta1 * x
   
   # Log-likelihood for normal distribution
-  norm_log_likelihood = -sum(dnorm(y, mean = y_pred, sd = sigma, log = TRUE))
+  norm_log_likelihood <- -sum(dnorm(y, mean = y_pred, sd = sigma, log = TRUE))
   
   return(norm_log_likelihood)
 }
 # Now to use optim() to minimise the negative log-likelihood and estimate params
-int_params = c(beta0 = 0, beta1 = 0, sigma = 1)
+int_params <- c(beta0 = 0, beta1 = 0, sigma = 1)
 
-mle = optim(
+mle <- optim(
   par = int_params,           # Initial guess
   fn = neg_log_likelihood,    # The function being minimised
   data = diabetes,            # Data to be used
@@ -36,10 +36,10 @@ mle = optim(
 mle$par
 
 # Predicted values from the model put back into likelihood function for LP
-y_pred = mle$par[1] + mle$par[2] * diabetes$bmi
+y_pred <- mle$par[1] + mle$par[2] * diabetes$bmi
 
 # Residuals
-residuals = diabetes$target - y_pred
+residuals <- diabetes$target - y_pred
 
 # Plot residuals to check for patterns
 plot(diabetes$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "Residuals")
@@ -57,31 +57,31 @@ plot(diabetes$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "R
 # cannot be predicted by BMI alone even though there is some correlation.
 
 # Fitting Model 1: Progression ~ BMI
-model1 = lm(target ~ bmi, data = diabetes)
+model1 <- lm(target ~ bmi, data = diabetes)
 
 # Fitting Model 2: Progression ~ BMI + Age
-model2 = lm(target ~ bmi + age, data = diabetes)
+model2 <- lm(target ~ bmi + age, data = diabetes)
 
 # Summarise the models
 summary(model1)
 summary(model2)
 
 # Extract the log-likelihood for both models
-logLik_model1 = logLik(model1)
-logLik_model2 = logLik(model2)
+logLik_model1 <- logLik(model1)
+logLik_model2 <- logLik(model2)
 
 # Print the log-likelihoods (optional)
 logLik_model1
 logLik_model2
 
 # Calculate the likelihood ratio test statistic
-LRT_stat = 2 * (logLik_model2 - logLik_model1)
+LRT_stat <- 2 * (logLik_model2 - logLik_model1)
 
 # Degrees of freedom is the difference in the number of parameters
-df = df.residual(model1) - df.residual(model2)
+df <- df.residual(model1) - df.residual(model2)
 
 # Compute the p-value for the test
-p_value = pchisq(LRT_stat, df = df, lower.tail = FALSE)
+p_value <- pchisq(LRT_stat, df = df, lower.tail = FALSE)
 
 # Print the result
 cat("Likelihood Ratio Test Statistic:", LRT_stat, "\n")
