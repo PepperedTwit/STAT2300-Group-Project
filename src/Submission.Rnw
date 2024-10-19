@@ -72,9 +72,18 @@ Jacob \textsc{Saunders}, C3262240\\
 %----------------------------------------------------------------------------------------
 
 
+<<eval=TRUE>>=
+# Note I made the default improve value large so the error is visible,
+# because the MLE converges very quickly
+theta_nr <- newton_raphson_mle(x, improve = 1e-1)
 
-
-
+cat(
+    "Maximum likelihood estimate of theta via Newton-Raphson method\n", 
+    "MLE: ", round(theta_nr, 6), "\n",
+    "Error: ", round(abs(theta_hat - theta_nr), 8),
+    sep = ""
+)
+@
 
 %----------------------------------------------------------------------------------------
 %	Bibliography
