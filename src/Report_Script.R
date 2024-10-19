@@ -36,10 +36,10 @@ mle = optim(
 mle$par
 
 # Predicted values from the model put back into likelihood function for LP
-y_pred <- mle$par[1] + mle$par[2] * diabetes$bmi
+y_pred = mle$par[1] + mle$par[2] * diabetes$bmi
 
 # Residuals
-residuals <- diabetes$target - y_pred
+residuals = diabetes$target - y_pred
 
 # Plot residuals to check for patterns
 plot(diabetes$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "Residuals")
@@ -56,3 +56,43 @@ plot(diabetes$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "R
 # variables and you would assume that the other 9 are not all redundant and
 # cannot be predicted by BMI alone even though there is some correlation.
 
+# Fitting Model 1: Progression ~ BMI
+model1 = lm(target ~ bmi, data = diabetes)
+
+# Fitting Model 2: Progression ~ BMI + Age
+model2 = lm(target ~ bmi + age, data = diabetes)
+
+# Summarise the models
+summary(model1)
+summary(model2)
+
+# Extract the log-likelihood for both models
+logLik_model1 = logLik(model1)
+logLik_model2 = logLik(model2)
+
+# Print the log-likelihoods (optional)
+logLik_model1
+logLik_model2
+
+# Calculate the likelihood ratio test statistic
+LRT_stat = 2 * (logLik_model2 - logLik_model1)
+
+# Degrees of freedom is the difference in the number of parameters
+df = df.residual(model1) - df.residual(model2)
+
+# Compute the p-value for the test
+p_value <- pchisq(LRT_stat, df = df, lower.tail = FALSE)
+
+# Print the result
+cat("Likelihood Ratio Test Statistic:", LRT_stat, "\n")
+cat("p-value:", p_value, "\n")
+
+# Likelihood Ratio Test Statistic: 4.413884 
+# p-value: 0.03564759 
+# Given the p-value is such a small number being less than 0.05, it can be
+# concluded that the model with BMI and Age is a better fit than the model
+# with BMI as the only constituent and the likelihood ratio test backs up
+# this data and indicates a large improvement. This was almost assumed given
+# the data in the set has 10 variables and would be poorly constructed if 
+# so many were redundant which concludes through testing and general reasoning
+# that adding additional variables will contribute to the accuracy of the model
