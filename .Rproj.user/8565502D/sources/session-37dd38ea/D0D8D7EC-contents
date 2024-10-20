@@ -206,6 +206,7 @@ In your presentation, your group will have 8 minutes to present your project to 
 diabetes <- read.csv("Group Project/dat/diabetes.csv", header = TRUE)
 head(diabetes)
 
+<<<<<<< HEAD
 neg_log_likelihood <- function(params, data) {
   # Extract the parameters
   beta0 <- params[1]        # Intercept
@@ -247,7 +248,52 @@ residuals <- diabetes$target - y_pred
 # Plot residuals to check for patterns
 plot(diabetes$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "Residuals")
 @
+=======
+<<echo=TRUE>>=
+head(ddat)
 
+neg_log_likelihood <- function(params, data) {
+  # Extract the parameters
+  beta0 <- params[1]        # Intercept
+  beta1 <- params[2]        # Slope
+  sigma <- params[3]        # Standard Deviation
+  
+  # Extract dependent and independent variables
+  x <- ddat$bmi
+  y <- ddat$target
+  
+  # Predicted value of a linear model
+  y_pred <- beta0 + beta1 * x
+  
+  # Log-likelihood for normal distribution
+  norm_log_likelihood <- -sum(dnorm(y, mean = y_pred, sd = sigma, log = TRUE))
+  
+  return(norm_log_likelihood)
+}
+# Now to use optim() to minimise the negative log-likelihood and estimate params
+int_params <- c(beta0 = 0, beta1 = 0, sigma = 1)
+>>>>>>> origin/Jacob
+
+mle <- optim(
+  par = int_params,           # Initial guess
+  fn = neg_log_likelihood,    # The function being minimised
+  data = ddat,            # Data to be used
+  method = "BFGS",            # Optimisation method (less fragile and more common)
+  hessian = TRUE              # Return Hessian for variance estimation
+)
+
+# Results
+mle$par
+
+# Predicted values from the model put back into likelihood function for LP
+y_pred <- mle$par[1] + mle$par[2] * ddat$bmi
+
+# Residuals
+residuals <- ddat$target - y_pred
+
+# Plot residuals to check for patterns
+plot(ddat$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "Residuals")
+@
 
 \section{Likelihood Ratio Test}
 <<echo=TRUE>>=
