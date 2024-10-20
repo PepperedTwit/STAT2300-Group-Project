@@ -1,0 +1,26 @@
+{
+    "id": "D0D8D7EC",
+    "path": "~/STAT2300-Group-Project/src/Submission.Rnw",
+    "project_path": "src/Submission.Rnw",
+    "type": "sweave",
+    "hash": "2221470508",
+    "contents": "",
+    "dirty": false,
+    "created": 1729228817055.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "282,30",
+        "scrollLine": "258"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1729393366,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1729393366596,
+    "read_only": false,
+    "read_only_alternatives": []
+}
