@@ -1,2 +1,2 @@
 src/latex_out/*
-!src/latex_out/*.pdf
+# !src/latex_out/*.pdf
