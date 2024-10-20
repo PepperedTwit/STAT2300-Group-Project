@@ -42,6 +42,7 @@
 % R Libraries import and custom helper functions
 <<setup, include=FALSE, size='10'>>=
 knitr::opts_chunk$set(fig.path='assets/')
+set.seed(69)
 library(tidyr)
 library(dplyr)
 
@@ -59,7 +60,6 @@ format_df <- function(df) {
 @
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
 %----------------------------------------------------------------------------------------
 % Title Page
@@ -280,6 +280,7 @@ With the assumption that the data is of a normal distribution and follows linear
 \section{Likelihood Ratio Test}
 
 We will perform a likelihood ratio test to compare two nested models: one that includes only BMI as a predictor of diabetes progression, and another that includes both BMI and age. This will help us determine whether adding age significantly improves our understanding of diabetes progression.
+
 <<echo=TRUE>>=
 # Fitting Model 1: Progression ~ BMI
 model1 <- lm(target ~ bmi, data = ddat)
@@ -315,7 +316,7 @@ cat("p-value:", p_value, "\n")
 \subsection*{Likelihood Ratio Test Analysis}
 Given the p-value is such a small number being less than 0.05, it can be concluded that the model with BMI and age is a better fit than the model with BMI as the only constituent and the likelihood ratio test backs up this data and indicates a large improvement. This was almost assumed given the data in the set has 10 variables and would be poorly constructed if so many were redundant which concludes through testing and general reasoning that adding additional variables will contribute to the accuracy of the model.
 
-\section{Ranking the variables based on the correlation coefficient}
+\subsection{Ranking the variables based on the correlation coefficient}
 <<echo=TRUE>>=
 # List of predictor variables (excluding the target variable)
 predictor_vars <- c("age", "sex", "bmi", "bp", "s1", "s2", "s3", "s4", "s5", "s6")
@@ -403,6 +404,18 @@ for (name in names(ddat)) {
 }
 @
 
+\subsection*{Conclusion}
+
+The researcher embarked on the task of computing 95\% confidence intervals for the parameters estimated in the MLE model using the likelihood interval obtained through the Newton-Raphson method. This process involved revisiting and rewriting the code for both the confidence interval calculation and the Newton-Raphson method for estimating Log Maximum Likelihood (LML). Through this implementation process, the researcher not only improved the design of the algorithms but also deepened their understanding of these sophisticated statistical techniques.
+
+A significant challenge arose late in the process when it was discovered that the distribution was normalized, rather than the initially assumed exponential distribution. This realization necessitated a rapid adaptation of the methods to work with a normalized distribution centered around zero and scaled by the square root of the length. The time pressure created by this late discovery added stress to the project but ultimately served to reinforce the learning experience, deeply ingraining the knowledge of these methods.
+
+Upon completion of the calculations, the researcher encountered an unexpected result: the confidence intervals for every column in the distribution were identical. This surprising outcome initially caused concern and prompted verification using an R package to confirm the accuracy of the results. This experience highlighted the critical importance of thoroughly understanding the characteristics of the data before beginning analysis, as the nature of the dataset - being normalized and centered about zero - had a profound impact on the results.
+
+Despite the challenges and initial frustration, the process yielded valuable insights into the nuances of working with normalized distributions and the impact of data preprocessing on statistical outputs. The researcher gained a deeper appreciation for the behavior of the Newton-Raphson method with normalized data. The project underscored the importance of data exploration and understanding the implications of data preprocessing on statistical analyses.
+
+In conclusion, while the identical confidence intervals across all parameters were unexpected, this outcome provided important lessons in statistical analysis. The experience enhanced the researcher's practical skills in implementing and adapting statistical methods to specific data characteristics. It also demonstrated the importance of cross-verification in ensuring the accuracy of custom-implemented statistical methods. Ultimately, despite the challenges encountered, the project served as a valuable learning experience, reinforcing both theoretical knowledge and practical skills in advanced statistical techniques.
+
 \section{Bootstrap Confidence Intervals}
 
 We will use the bootstrap method to construct confidence intervals for the correlation coefficient between blood pressure and diabetes progression. This non-parametric approach will allow us to make inferences about the strength of this relationship in the population without making strong distributional assumptions.
@@ -475,6 +488,22 @@ for (name in names(ddat)) {
     )
 }
 @
+
+\subsection*{Conclusion}
+
+The implementation of the bootstrap method to construct confidence intervals for the correlation coefficient between blood pressure and diabetes progression has provided valuable insights, particularly when compared to the previously used Newton-Raphson method. This comparison allows for a more comprehensive understanding of the statistical properties of the dataset and the performance of different estimation techniques.
+
+In the previous analysis using the Newton-Raphson method, the confidence intervals for all variables were identical due to the normalized nature of the data. However, without a point of comparison, the significance of these results was difficult to assess. The introduction of the bootstrap method results now enables a more meaningful comparison and interpretation.
+
+A striking observation is the significant discrepancy between the Maximum Likelihood Estimator (MLE) approximations derived from the Newton-Raphson method and those obtained through the bootstrap technique. The Newton-Raphson method converged rapidly to values approaching zero across all categories, suggesting that the MLE is essentially zero. This quick convergence to near-zero values raises questions about the method's sensitivity to the normalized data structure.
+
+In contrast, the bootstrap method demonstrates significantly more variation in its estimates. This increased variability is an expected characteristic of the bootstrap, given its non-parametric nature and reliance on resampling to make empirical estimations of the data. Despite being more computationally expensive, the bootstrap method is generally considered more likely to provide accurate results in many situations, particularly when dealing with complex data structures or when distributional assumptions are uncertain.
+
+Interestingly, while the point estimates differ substantially between the two methods, the confidence intervals remain remarkably similar. This similarity in confidence intervals is likely attributable to the normalization of the data, as mentioned in the previous analysis. It underscores the robust nature of confidence interval estimation, even when point estimates vary considerably between methods.
+
+The bootstrap method's resistance to convergence issues and its ability to express variability in the MLE across each column provide a more nuanced view of the data's statistical properties. This is particularly valuable in the context of analyzing the correlation between blood pressure and diabetes progression, as it allows for a more realistic assessment of the uncertainty in the relationship between these variables.
+
+In conclusion, the comparison between the Newton-Raphson and bootstrap methods highlights the importance of using multiple statistical approaches when analyzing complex datasets. While the Newton-Raphson method provided consistent but potentially oversimplified estimates, the bootstrap method offers a more detailed and possibly more accurate representation of the data's statistical properties. This comparison not only enhances our understanding of the relationship between blood pressure and diabetes progression but also serves as a reminder of the nuances involved in statistical estimation and the value of non-parametric techniques in handling normalized data.
 
 \section*{Marking Guide}
 
