@@ -1,6 +1,8 @@
 \documentclass[10pt]{article}
+\usepackage{booktabs}
+\usepackage{newunicodechar}
+\usepackage{fontspec}
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
 \usepackage{amsfonts}
 \usepackage{attachfile}
 \usepackage{enumitem}
@@ -15,6 +17,13 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
+% Special Unicode characters
+\newfontfamily\greekfont{DejaVu Sans}[Script=Greek]
+\newunicodechar{α}{{\greekfont α}}
+\newunicodechar{β}{{\greekfont β}}
+\newunicodechar{γ}{{\greekfont γ}}
+\newunicodechar{μ}{{\greekfont μ}}
+
 % Define global constants
 \setlength{\marginparwidth}{2cm} % Adjusting marginparwidth for todonotes
 \setlength{\intextsep}{5pt} % Vertical space above & below [h] floats
@@ -23,12 +32,28 @@
 \setlength{\belowcaptionskip}{10pt} % Space below caption
 \geometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm} % Set the page to landscape with custom margins
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}  % Defines a new command for the horizontal lines, change thickness here
-\newcommand{\SubSec}[1]{\vspace{1em}\noindent\textsc{\textbf{#1}}\vspace{0.5em} \\} % Custom command to mimic subsections
-\newcommand{\Answer}{\vspace{0.2cm}\textbf{Answer:}\vspace{0.2cm}}
+\newcommand{\SubSec}[1]{\vspace{1em}\noindent\textsc{\large\textbf{#1}}\vspace{0.5em} \\} % Custom command to mimic subsections
+\newcommand{\Answer}{\SubSec{Response:}} % Custom command to add response section
+\newcommand{\PSkip}{\vspace{1em}} % Custom command to add vertical space
+\newcommand{\Bold}[1]{\PSkip\textbf{#1}} % Custom command to bold text
 
-% R Libraries import
-<<setup, include=FALSE>>=
+% R Libraries import and custom helper functions
+<<setup, include=FALSE, size='10'>>=
 knitr::opts_chunk$set(fig.path='assets/')
+library(tidyr)
+library(dplyr)
+
+ddat <- read.csv("../dat/diabetes.csv")
+
+# Used for importing data frame contents into LaTeX tables
+format_df <- function(df) {
+    out <- ""  # Initialize the ouT_Posut string
+    for (i in 1:nrow(df)) {
+        row <- paste(df[i, ], collapse = " & ")  # Format the current row
+        out <- paste0(out, row, " \\\\ ")  # Append the formatted row with LaTeX row break
+    }
+    return(out)
+}
 @
 
 \begin{document}
@@ -71,19 +96,217 @@ Jacob \textsc{Saunders}, C3262240\\
 %	Document Contents
 %----------------------------------------------------------------------------------------
 
+{\centering\section*{STAT2300 Group Project}}
 
-<<eval=TRUE>>=
-# Note I made the default improve value large so the error is visible,
-# because the MLE converges very quickly
-theta_nr <- newton_raphson_mle(x, improve = 1e-1)
+\subsection*{Introduction}
 
-cat(
-    "Maximum likelihood estimate of theta via Newton-Raphson method\n", 
-    "MLE: ", round(theta_nr, 6), "\n",
-    "Error: ", round(abs(theta_hat - theta_nr), 8),
-    sep = ""
-)
-@
+\textbf{Proposal Due:} Electronically via Canvas by 11:59pm, Sunday, September 22. \\[0.2cm]
+\textbf{Project Due:} Electronically via Canvas by 11:59pm, Sunday, October 20. \\[0.2cm]
+\textbf{Presentation:} During the Week 12 lab. \\[0.2cm]
+\textbf{Worth:} 30\% of your overall grade (20\% for the group project and 10\% for the group presentation)
+
+\begin{itemize}
+    \item The purpose of this group project is to work collaboratively to apply the statistical concepts and methods of the course to a data set of your group's choosing and present your work to an audience of your peers.
+    \item Please note that your submission should contain your own work. Please refer to the \href{https://policies.newcastle.edu.au/document/view-current.php?id=34}{\textbf{Student Conduct Rule}} for more information.
+    \item The use of generative AI is not permitted for this assessment. \href{https://www.newcastle.edu.au/current-students/study-essentials/assessment-and-exams/assessments-and-assignments/artificial-intelligence-in-assessment}{\textbf{See more details.}}
+\end{itemize}
+
+\subsection*{Forming Groups}
+
+For this project, you must work in groups of 2 or 3 students. Please formalise your groups in Canvas in the People area. If you're struggling to find someone to work with, there is a thread in the Discussion Board where you can reach out to other students to form groups.
+
+\subsection*{Proposal}
+
+The purpose of the proposal is to give you a mechanism to get early feedback on your ideas for the project so that you don't pursue a project that is not viable. The proposal is unweighted, but it will give you an opportunity to outline the plan for your project and me as Course Coordinator the chance to provide guidance or steer you in the right direction as needed. For the proposal, please provide a description of the following:
+
+\begin{itemize}
+    \item \textbf{The data:} What data are you going to use? Will you use a real data set or instead performing simulations? If using a real data set, where will you obtain the data? How big will the sample size be? If performing simulations, how many simulations do you intend to perform? What will you be computing in each simulation?
+    \item \textbf{The methods you will use to analyse the data:} You must include up to 3 methods we have learned about in STAT2300. What will these methods be able to illuminate about the data?
+\end{itemize}
+
+After your group's proposal is approved, you can proceed with the project.
+
+\subsection*{Project}
+
+With the project, you will apply 3 or more concepts from STAT2300 to your chosen data set or simulation design. The project should be a comprehensive written document and it should include the following sections:
+
+\begin{enumerate}
+    \item \textbf{Introduction:} In this section, you will provide an overview of the application or theoretical area for your project. Through the methods you will employ, what will you explore about the particular application or theoretical domain you have chosen?
+    \item \textbf{Data or Simulation Design:} In this section, you will provide a full description of the data you will be analysing. More specifically,
+    \begin{itemize}
+        \item If you are using a real data set, provide the source of the data set, a description of all of the variables, and the sample size.
+        \item If you are performing simulations, fully describe the simulation design, including the number of simulations you will be performing and the objects you will create to store the information from the simulations.
+    \end{itemize}
+    \item \textbf{Topics Covered:} In this section, you will list 3 or more methods from STAT2300 that you will apply to the data, and what you will use them for.
+    \item \textbf{Results:} In this section, you will apply the methods from the previous section to the data set and provide a full code or working to obtain the results. Note: your work must be completely reproducible. This means:
+    \begin{itemize}
+        \item If you make use of any functions contained in add-in packages, you must list these packages and include the appropriate call to library() to load the functions within your code.
+        \item If you perform any random number generation or random sampling, you must set the seed of the random number generation with the set.seed() function.
+    \end{itemize}
+    \item \textbf{Conclusion:} In this section, you will summarise the results and describe what they illustrate about the application or theoretical domain you've mentioned in the introduction.
+\end{enumerate}
+
+\subsection*{Group Member Attribution}
+
+In addition to the written project, each group must submit a brief report providing details of what each group member contributed to the project. Broadly, this can be aligned to each of the 5 sections above:
+
+\begin{enumerate}[noitemsep]
+    \item Introduction
+    \begin{itemize}
+        \item Ideas
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+    \item Data/Simulation Design
+    \begin{itemize}
+        \item Ideas
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+    \item Topics Covered
+    \begin{itemize}
+        \item Ideas
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+    \item Results
+    \begin{itemize}
+        \item Writing (text)
+        \item Writing (code)
+        \item Reviewing (text and/or code)
+    \end{itemize}
+    \item Conclusion
+    \begin{itemize}
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+\end{enumerate}
+
+This document must be signed by all group members.
+
+\subsection*{Peer Review}
+
+Each member of the group must individually submit a peer reflection form. This gives you the opportunity to anonymously rate and comment on the performance of the other members of your group.
+
+\subsection*{Presentation}
+
+In your presentation, your group will have 8 minutes to present your project to the rest of the class during the lab in Week 12. Your presentation should be accompanied by some visual content, such as slides. There are various ways you might format your presentation, but one structure which might work well:
+
+\begin{enumerate}
+    \item \textbf{Introduction:} introduce the subject area of your project and why it is interesting. Perhaps briefly indicate the techniques your group applied. ($\sim$2 minutes)
+    \item \textbf{Results:} provide an overview of the results of your project. You don't need to showcase all of the code, but report the main results and how they are meaningful to the subject area. ($\sim$5 minutes)
+    \item \textbf{Conclusion:} provide a summary of your findings and what your group learned about the subject area. ($\sim$1 minute)
+\end{enumerate}
+
+\newpage
+
+\section{Maximum Likelihood Estimation (MLE)}
+
+
+
+
+\section{Likelihood Ratio Test}
+
+\section{Confidence Intervals using the Newton-Raphson Method}
+
+We will compute 95\% confidence intervals for the parameters estimated in our MLE model using the likelihood interval obtained through the Newton-Raphson method. This will provide a range of plausible values for each parameter in the population, helping us understand the uncertainty in our estimates.
+
+\section{Bootstrap Confidence Intervals}
+
+\section*{Marking Guide}
+
+\subsection*{Project}
+
+\subsubsection*{Introduction}
+\begin{itemize}
+    \item \textbf{[4 marks]} Provides a clear, concise, and comprehensive overview of the application or theoretical area. Clearly explains the significance and relevance of the project. States the methods to be employed and the specific objectives, demonstrating a thorough understanding of how the methods will explore the chosen domain.
+    \item \textbf{[3 marks]} Provides a clear overview of the application or theoretical area. Explains the significance and relevance of the project. States the methods to be employed and the specific objectives, demonstrating a good understanding of how the methods will explore the chosen domain.
+    \item \textbf{[2 marks]} Provides a basic overview of the application or theoretical area. Provides a basic explanation of the significance and relevance of the project. States the methods and objectives, demonstrating a satisfactory understanding of how the methods will explore the chosen domain.
+    \item \textbf{[1 mark]} Provides an unclear or incomplete overview of the application or theoretical area. Fails to explain the significance and relevance of the project. Fails to clearly state the methods and objectives, demonstrating a limited understanding of how the methods will explore the chosen domain.
+\end{itemize}
+
+\subsubsection*{Data/Simulation Design}
+\begin{itemize}
+    \item \textbf{[4 marks]} Provides a comprehensive and detailed description of the data or simulation design. For real data, includes the source, a thorough description of all variables, and the sample size. For simulations, fully describes the design, number of simulations, and objects created to store information.
+    \item \textbf{[3 marks]} Provides a clear description of the data or simulation design. For real data, includes the source, a good description of most variables, and the sample size. For simulations, describes the design, number of simulations, and objects created to store information.
+    \item \textbf{[2 marks]} Provides a basic description of the data or simulation design. For real data, includes the source and a basic description of some variables, and the sample size. For simulations, provides a basic description of the design and number of simulations, with limited detail on objects created to store information.
+    \item \textbf{[1 mark]} Provides an incomplete or unclear description of the data or simulation design. For real data, lacks the source, description of variables, or sample size. For simulations, provides an unclear or incomplete description of the design, number of simulations, and objects created to store information.
+\end{itemize}
+
+\subsubsection*{Topics Covered}
+\begin{itemize}
+    \item \textbf{[3 marks]} Provides a clear, detailed explanation for each method and its application to the data. Demonstrates a thorough understanding of how each method will be used and its relevance to the project.
+    \item \textbf{[2 marks]} Provides a clear, detailed explanation for two methods and their application to the data. Demonstrates a thorough understanding of how these two methods will be used and their relevance to the project.
+    \item \textbf{[1 mark]} Provides a clear, detailed explanation for one method and its application to the data. Demonstrates a thorough understanding of how this method will be used and its relevance to the project.
+\end{itemize}
+
+\subsubsection*{Results: Method, Code, Working, and Appropriateness for the Task}
+\begin{itemize}
+    \item \textbf{[13--15 marks]} The methods applied are highly appropriate for the task. The R code is well-written, clear, and includes detailed comments. Any mathematical working is thorough and accurate, leading to correct results. The conclusions for each method are insightful and relevant to the data set.
+    \item \textbf{[10--12 marks]} The methods applied are appropriate for the task. The R code is mostly clear and includes some comments. Any mathematical working is mostly accurate, with minor errors that do not significantly affect the results. The conclusions are relevant but may lack some insight.
+    \item \textbf{[7--9 marks]} The methods applied are somewhat appropriate for the task. The R code is functional but lacks clarity and comments. Any mathematical working has some errors that affect the results but are still understandable. The conclusions are somewhat relevant but may be incomplete or lack depth.
+    \item \textbf{[4--6 marks]} The methods applied are minimally appropriate for the task. The R code is unclear and lacks comments. Any mathematical working has significant errors that affect the results and make them difficult to interpret. The conclusions are minimally relevant and lack insight.
+    \item \textbf{[1--3 marks]} The methods applied are inappropriate for the task. The R code is poorly written and lacks comments. Any mathematical working is inaccurate and leads to incorrect results. The conclusions are irrelevant or incorrect.
+\end{itemize}
+
+\subsubsection*{Results -- Reproducibility}
+\begin{itemize}
+    \item \textbf{[7--9 marks]} The results are fully reproducible. All necessary packages are listed and loaded with library(). Any random number generation or sampling includes a set.seed() call. The code runs without errors and produces the expected results.
+    \item \textbf{[4--6 marks]} The results are mostly reproducible. Most necessary packages are listed and loaded, but one or two might be missing. Most random number generation or sampling includes a set.seed() call. The code runs with minor issues that do not significantly affect the results.
+    \item \textbf{[1--3 marks]} Some of the results are reproducible. Some necessary packages are listed and loaded, but many others may be missing. Some number generation or sampling includes a set.seed() call. The code runs with minor issues that do not significantly affect the results.
+\end{itemize}
+
+\subsubsection*{Conclusion}
+\begin{itemize}
+    \item \textbf{[5 marks]} The conclusion is exceptionally clear and insightful. It effectively summarises the results and provides a deep understanding of what they illustrate about the application or theoretical domain. The connections to the introduction are strong and well-articulated.
+    \item \textbf{[4 marks]} The conclusion is clear and insightful. It summarises the results well and provides a good understanding of what they illustrate about the application or theoretical domain. The connections to the introduction are clear but may lack some depth.
+    \item \textbf{[3 marks]} The conclusion is somewhat clear and insightful. It summarises the results adequately but may miss some key points about what they illustrate about the application or theoretical domain. The connections to the introduction are present but not strongly articulated.
+    \item \textbf{[2 marks]} The conclusion is minimally clear and insightful. It provides a basic summary of the results but lacks depth in explaining what they illustrate about the application or theoretical domain. The connections to the introduction are weak.
+    \item \textbf{[1 mark]} The conclusion is unclear and lacks insight. It fails to effectively summarise the results or explain what they illustrate about the application or theoretical domain. The connections to the introduction are missing or poorly articulated.
+\end{itemize}
+
+\textit{Note: The default position is that each student in the group will receive the same mark. However, the peer reflection form may be used to adjust marks individually if appropriate.}
+
+\subsection*{Presentation}
+
+During your presentation, your fellow classmates and I will provide an assessment based on the following:
+
+\begin{itemize}
+    \item \textbf{Introduction:} Did the group clearly introduce the subject area and explain why it is interesting?
+    \item \textbf{Techniques:} Were the techniques applied appropriate and relevant for the application?
+    \item \textbf{Presentation of results:} Were the main results of the project clearly presented and explained?
+    \item \textbf{Visual content:} Were the slides or other visual aids clear, relevant, and effectively used?
+    \item \textbf{Engagement:} Did the presentation keep the audience engaged and interested?
+    \item \textbf{Conclusion:} Did the group provide a clear summary of their findings and what they learned?
+    \item \textbf{Teamwork:} Was there good coordination among group members during the presentation?
+    \item \textbf{Structure:} Was the presentation well-organised (including timing), and easy to follow?
+\end{itemize}
+
+\textit{The group's mark will be an aggregate of my reflection (50\% weight) and the collective reflection of your peers (50\% weight).}
+
+\section*{Data Sources}
+
+If you're not sure where to look for sources of data, here are some potential places that might inspire an idea:
+
+\begin{itemize}
+    \item \href{https://ourworldindata.org/}{\textbf{Our World in Data:}} A large repository of global data across many different topics. A list of topics is available here.
+    
+    \item \href{http://www.bom.gov.au/}{\textbf{Bureau of Meteorology:}} A source of weather, water, and climate data in Australia.
+    
+    \item \href{https://www.abs.gov.au/}{\textbf{Australian Bureau of Statistics:}} The ABS is Australia's national statistical agency, providing official statistics on a wide range of economic, social, population and environmental matters of importance to Australia.
+    
+    \item \href{https://www.sports-reference.com/}{\textbf{Sports-Reference:}} A network of websites containing detailed historical statistics for (mostly) North American sports leagues.
+    
+    \item \href{https://www.nhc.noaa.gov/data/}{\textbf{HURDAT 2:}} A historical database of tropical cyclones. There are databases for the Atlantic Tropical Basin and the Northeast Pacific Tropical Basin.
+    
+    \item \href{http://www.astronexus.com/hyg}{\textbf{HYG:}} A database with a wide variety of variables measured on stars.
+    
+    \item \href{http://simbad.u-strasbg.fr/simbad/}{\textbf{SIMBAD:}} Another astronomical database, which includes other celestial objects in addition to stars.
+    
+    \item \href{https://github.com/awesomedata/awesome-public-datasets}{\textbf{Awesome Public Datasets:}} A Github repository of publicly available (and presumably awesome!) datasets.
+\end{itemize}
+
+These sources offer a wide range of data across various fields and topics. When choosing a dataset, consider its relevance to your project objectives, the quality and completeness of the data, and any potential ethical considerations in its use.
 
 %----------------------------------------------------------------------------------------
 %	Bibliography

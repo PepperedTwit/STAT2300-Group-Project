@@ -1,6 +1,6 @@
 #STAT2300 Report
 
-diabetes <- read.csv("./dat/diabetes.csv", header = TRUE)
+diabetes <- read.csv("Group Project/dat/diabetes.csv", header = TRUE)
 head(diabetes)
 
 neg_log_likelihood <- function(params, data) {
