@@ -1,2 +1,2 @@
-latex_out/
-.Rproj.user
+src/latex_out/*
+!src/latex_out/*.pdf
