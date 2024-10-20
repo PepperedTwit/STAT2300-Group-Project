@@ -1,6 +1,8 @@
 \documentclass[10pt]{article}
+\usepackage{booktabs}
+\usepackage{newunicodechar}
+\usepackage{fontspec}
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
 \usepackage{amsfonts}
 \usepackage{attachfile}
 \usepackage{enumitem}
@@ -15,6 +17,13 @@
 \usepackage{listings}
 \usepackage{xcolor}
 
+% Special Unicode characters
+\newfontfamily\greekfont{DejaVu Sans}[Script=Greek]
+\newunicodechar{α}{{\greekfont α}}
+\newunicodechar{β}{{\greekfont β}}
+\newunicodechar{γ}{{\greekfont γ}}
+\newunicodechar{μ}{{\greekfont μ}}
+
 % Define global constants
 \setlength{\marginparwidth}{2cm} % Adjusting marginparwidth for todonotes
 \setlength{\intextsep}{5pt} % Vertical space above & below [h] floats
@@ -23,12 +32,26 @@
 \setlength{\belowcaptionskip}{10pt} % Space below caption
 \geometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm} % Set the page to landscape with custom margins
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}  % Defines a new command for the horizontal lines, change thickness here
-\newcommand{\SubSec}[1]{\vspace{1em}\noindent\textsc{\textbf{#1}}\vspace{0.5em} \\} % Custom command to mimic subsections
-\newcommand{\Answer}{\vspace{0.2cm}\textbf{Answer:}\vspace{0.2cm}}
+\newcommand{\SubSec}[1]{\vspace{1em}\noindent\textsc{\large\textbf{#1}}\vspace{0.5em} \\} % Custom command to mimic subsections
+\newcommand{\Answer}{\SubSec{Response:}} % Custom command to add response section
+\newcommand{\PSkip}{\vspace{1em}} % Custom command to add vertical space
+\newcommand{\Bold}[1]{\PSkip\textbf{#1}} % Custom command to bold text
 
-% R Libraries import
-<<setup, include=FALSE>>=
+% R Libraries import and custom helper functions
+<<setup, include=FALSE, size='10'>>=
 knitr::opts_chunk$set(fig.path='assets/')
+library(tidyr)
+library(dplyr)
+
+# Used for importing data frame contents into LaTeX tables
+format_df <- function(df) {
+    out <- ""  # Initialize the ouT_Posut string
+    for (i in 1:nrow(df)) {
+        row <- paste(df[i, ], collapse = " & ")  # Format the current row
+        out <- paste0(out, row, " \\\\ ")  # Append the formatted row with LaTeX row break
+    }
+    return(out)
+}
 @
 
 \begin{document}
