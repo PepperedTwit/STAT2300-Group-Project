@@ -278,6 +278,8 @@ plot(ddat$bmi, residuals, main = "Residuals vs BMI", xlab = "BMI", ylab = "Resid
 With the assumption that the data is of a normal distribution and follows linear regression beta0 = 21.86, indicates that this is your progression if your BMI was 0, this is unrealistic as no one has this, the slope being labelled beta1 = 0.31 indicates every BMI increment of 1 would increase progression by 0.31 showing a small positive association which is reasonable, and standard deviation being 4102.63 is unrealistically high implying that BMI alone is not enough to determine the progression of diabetes based on the model or there is outlier variance that is just not explained by BMI. This is reasonable given the data is 10 measured variables and you would assume that the other 9 are not all redundant and cannot be predicted by BMI alone even though there is some correlation.
 
 \section{Likelihood Ratio Test}
+
+We will perform a likelihood ratio test to compare two nested models: one that includes only BMI as a predictor of diabetes progression, and another that includes both BMI and age. This will help us determine whether adding age significantly improves our understanding of diabetes progression.
 <<echo=TRUE>>=
 # Fitting Model 1: Progression ~ BMI
 model1 <- lm(target ~ bmi, data = ddat)
@@ -333,8 +335,6 @@ correlations_sorted <- sort(abs(correlations), decreasing = TRUE)
 correlations_sorted
 @
 This shows the most important variable is BMI, followed by possibly log of serum triglycerides level, and the blood pressure, which is a common factor in diabetes progression. The least important variable is gender as diabetes can manifest in any gender and makes it an irrelevant variable with minimal contribution to the dataset but more for record keeping purposes however, the high-density lipoproteins have a negative correlation to the target variable which is interesting as we could infer that the HDL does still have an average correlation compared to the rest of the data but based on there being less rather than more.
-
-We will perform a likelihood ratio test to compare two nested models: one that includes only BMI as a predictor of diabetes progression, and another that includes both BMI and age. This will help us determine whether adding age significantly improves our understanding of diabetes progression.
 
 \section{Confidence Intervals using the Newton-Raphson Method}
 
