@@ -315,7 +315,7 @@ predictor_vars <- c("age", "sex", "bmi", "bp", "s1", "s2", "s3", "s4", "s5", "s6
 
 # Calculate the correlation between each predictor and the target
 correlations <- sapply(predictor_vars, function(var) {
-  cor(diabetes[[var]], diabetes$target)
+  cor(ddat[[var]], ddat$target)
 })
 
 # Print the correlation coefficients
