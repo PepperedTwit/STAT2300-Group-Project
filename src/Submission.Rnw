@@ -308,6 +308,27 @@ cat("p-value:", p_value, "\n")
 \subsection*{Likelihood Ratio Test Analysis}
 Given the p-value is such a small number being less than 0.05, it can be concluded that the model with BMI and age is a better fit than the model with BMI as the only constituent and the likelihood ratio test backs up this data and indicates a large improvement. This was almost assumed given the data in the set has 10 variables and would be poorly constructed if so many were redundant which concludes through testing and general reasoning that adding additional variables will contribute to the accuracy of the model.
 
+\section{Ranking the variables based on the correlation coefficient}
+<<echo=TRUE>>=
+# List of predictor variables (excluding the target variable)
+predictor_vars <- c("age", "sex", "bmi", "bp", "s1", "s2", "s3", "s4", "s5", "s6")
+
+# Calculate the correlation between each predictor and the target
+correlations <- sapply(predictor_vars, function(var) {
+  cor(diabetes[[var]], diabetes$target)
+})
+
+# Print the correlation coefficients
+correlations
+
+# Rank variables by absolute correlation
+correlations_sorted <- sort(abs(correlations), decreasing = TRUE)
+
+# Print the ranked correlations
+correlations_sorted
+@
+This shows the most important variable is BMI, followed by possibly log of serum triglycerides level, and the blood pressure, which is a common factor in diabetes progression. The least important variable is gender as diabetes can manifest in any gender and makes it an irrelevant variable with minimal contribution to the dataset but more for record keep purposes.
+
 \section{Confidence Intervals using the Newton-Raphson Method}
 
 We will compute 95\% confidence intervals for the parameters estimated in our MLE model using the likelihood interval obtained through the Newton-Raphson method. This will provide a range of plausible values for each parameter in the population, helping us understand the uncertainty in our estimates.
