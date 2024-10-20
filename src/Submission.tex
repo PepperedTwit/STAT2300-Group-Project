@@ -1,0 +1,208 @@
+\documentclass[10pt]{article}
+\usepackage{booktabs}
+\usepackage{newunicodechar}
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\usepackage{amsfonts}
+\usepackage{attachfile}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{wrapfig}
+\usepackage[colorinlistoftodos]{todonotes}
+% For including and formatting code
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Special Unicode characters
+\newfontfamily\greekfont{DejaVu Sans}[Script=Greek]
+\newunicodechar{α}{{\greekfont α}}
+\newunicodechar{β}{{\greekfont β}}
+\newunicodechar{γ}{{\greekfont γ}}
+\newunicodechar{μ}{{\greekfont μ}}
+
+% Define global constants
+\setlength{\marginparwidth}{2cm} % Adjusting marginparwidth for todonotes
+\setlength{\intextsep}{5pt} % Vertical space above & below [h] floats
+\setlength{\columnsep}{10pt} % Space between columns
+\setlength{\abovecaptionskip}{0pt} % Space above caption
+\setlength{\belowcaptionskip}{10pt} % Space below caption
+\geometry{left=1.5cm, right=1.5cm, top=2cm, bottom=2cm} % Set the page to landscape with custom margins
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}  % Defines a new command for the horizontal lines, change thickness here
+\newcommand{\SubSec}[1]{\vspace{1em}\noindent\textsc{\large\textbf{#1}}\vspace{0.5em} \\} % Custom command to mimic subsections
+\newcommand{\Answer}{\SubSec{Response:}} % Custom command to add response section
+\newcommand{\PSkip}{\vspace{1em}} % Custom command to add vertical space
+\newcommand{\Bold}[1]{\PSkip\textbf{#1}} % Custom command to bold text
+
+% R Libraries import and custom helper functions
+\begin{Schunk}
+\begin{Sinput}
+> knitr::opts_chunk$set(fig.path='assets/')
+> library(tidyr)
+> library(dplyr)
+> ddat <- read.csv("../dat/diabetes.csv")
+> # Used for importing data frame contents into LaTeX tables
+> format_df <- function(df) {
++     out <- ""  # Initialize the ouT_Posut string
++     for (i in 1:nrow(df)) {
++         row <- paste(df[i, ], collapse = " & ")  # Format the current row
++         out <- paste0(out, row, " \\\\ ")  # Append the formatted row with LaTeX row break
++     }
++     return(out)
++ }
+\end{Sinput}
+\end{Schunk}
+
+\usepackage{Sweave}
+\begin{document}
+\input{Submission-concordance}
+
+%----------------------------------------------------------------------------------------
+% Title Page
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+\center{}
+\textsc{\LARGE The University of Newcastle}\\[0.5cm]
+\textsc{\large College of Engineering, Science and Environment}\\[0.5cm]
+\textsc{\large School of Information and Physical Sciences}\\[0.5cm]
+\includegraphics[scale=.3]{assets/_uni_logo.png}\\[0.5cm]
+\textsc{\Large Statistical Inference}\\[0.3cm]
+\textsc{\Large STAT2300: Semester 2, 2024}\\[0.3cm]
+
+% TITLE BAR
+
+\HRule{} \\[0.4cm]
+{\huge \bfseries Group Project } \\ [0.4cm]
+\HRule{} \\[1cm]
+
+% AUTHOR SECTION
+
+\begin{minipage}{1.0\textwidth}
+\begin{flushleft} \large
+\emph{Author (s):}\\
+Nathan \textsc{Hill}, C3334136\\
+Jacob \textsc{Saunders}, C3262240\\
+\end{flushleft}
+\end{minipage}\\[1.5cm]
+
+% DATE SECTION
+
+\vfill % Fill the rest of the page with whitespace
+{\large \today} \\ [1.5cm] % Adjusted spacing here
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	Document Contents
+%----------------------------------------------------------------------------------------
+
+{\centering\section*{STAT2300 Group Project}}
+
+\subsection*{Introduction}
+
+\textbf{Proposal Due:} Electronically via Canvas by 11:59pm, Sunday, September 22. \\[0.2cm]
+\textbf{Project Due:} Electronically via Canvas by 11:59pm, Sunday, October 20. \\[0.2cm]
+\textbf{Presentation:} During the Week 12 lab. \\[0.2cm]
+\textbf{Worth:} 30\% of your overall grade (20\% for the group project and 10\% for the group presentation)
+
+\begin{itemize}
+    \item The purpose of this group project is to work collaboratively to apply the statistical concepts and methods of the course to a data set of your group's choosing and present your work to an audience of your peers.
+    \item Please note that your submission should contain your own work. Please refer to the \href{https://policies.newcastle.edu.au/document/view-current.php?id=34}{\textbf{Student Conduct Rule}} for more information.
+    \item The use of generative AI is not permitted for this assessment. \href{https://www.newcastle.edu.au/current-students/study-essentials/assessment-and-exams/assessments-and-assignments/artificial-intelligence-in-assessment}{\textbf{See more details.}}
+\end{itemize}
+
+\subsection*{Forming Groups}
+
+For this project, you must work in groups of 2 or 3 students. Please formalise your groups in Canvas in the People area. If you're struggling to find someone to work with, there is a thread in the Discussion Board where you can reach out to other students to form groups.
+
+\subsection*{Proposal}
+
+The purpose of the proposal is to give you a mechanism to get early feedback on your ideas for the project so that you don't pursue a project that is not viable. The proposal is unweighted, but it will give you an opportunity to outline the plan for your project and me as Course Coordinator the chance to provide guidance or steer you in the right direction as needed. For the proposal, please provide a description of the following:
+
+\begin{itemize}
+    \item \textbf{The data:} What data are you going to use? Will you use a real data set or instead performing simulations? If using a real data set, where will you obtain the data? How big will the sample size be? If performing simulations, how many simulations do you intend to perform? What will you be computing in each simulation?
+    \item \textbf{The methods you will use to analyse the data:} You must include up to 3 methods we have learned about in STAT2300. What will these methods be able to illuminate about the data?
+\end{itemize}
+
+After your group's proposal is approved, you can proceed with the project.
+
+\subsection*{Project}
+
+With the project, you will apply 3 or more concepts from STAT2300 to your chosen data set or simulation design. The project should be a comprehensive written document and it should include the following sections:
+
+\begin{enumerate}
+    \item \textbf{Introduction:} In this section, you will provide an overview of the application or theoretical area for your project. Through the methods you will employ, what will you explore about the particular application or theoretical domain you have chosen?
+    \item \textbf{Data or Simulation Design:} In this section, you will provide a full description of the data you will be analysing. More specifically,
+    \begin{itemize}
+        \item If you are using a real data set, provide the source of the data set, a description of all of the variables, and the sample size.
+        \item If you are performing simulations, fully describe the simulation design, including the number of simulations you will be performing and the objects you will create to store the information from the simulations.
+    \end{itemize}
+    \item \textbf{Topics Covered:} In this section, you will list 3 or more methods from STAT2300 that you will apply to the data, and what you will use them for.
+    \item \textbf{Results:} In this section, you will apply the methods from the previous section to the data set and provide a full code or working to obtain the results. Note: your work must be completely reproducible. This means:
+    \begin{itemize}
+        \item If you make use of any functions contained in add-in packages, you must list these packages and include the appropriate call to library() to load the functions within your code.
+        \item If you perform any random number generation or random sampling, you must set the seed of the random number generation with the set.seed() function.
+    \end{itemize}
+    \item \textbf{Conclusion:} In this section, you will summarise the results and describe what they illustrate about the application or theoretical domain you've mentioned in the introduction.
+\end{enumerate}
+
+\subsection*{Group Member Attribution}
+
+In addition to the written project, each group must submit a brief report providing details of what each group member contributed to the project. Broadly, this can be aligned to each of the 5 sections above:
+
+\begin{enumerate}[noitemsep]
+    \item Introduction
+    \begin{itemize}
+        \item Ideas
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+    \item Data/Simulation Design
+    \begin{itemize}
+        \item Ideas
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+    \item Topics Covered
+    \begin{itemize}
+        \item Ideas
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+    \item Results
+    \begin{itemize}
+        \item Writing (text)
+        \item Writing (code)
+        \item Reviewing (text and/or code)
+    \end{itemize}
+    \item Conclusion
+    \begin{itemize}
+        \item Writing
+        \item Reviewing
+    \end{itemize}
+\end{enumerate}
+
+This document must be signed by all group members.
+
+\subsection*{Peer Review}
+
+Each member of the group must individually submit a peer reflection form. This gives you the opportunity to anonymously rate and comment on the performance of the other members of your group.
+
+\subsection*{Presentation}
+
+In your presentation, your group will have 8 minutes to present your project to the rest of the class during the lab in Week 12. Your presentation should be accompanied by some visual content, such as slides. There are various ways you might format your presentation, but one structure which might work well:
+
+\begin{enumerate}
+    \item \textbf{Introduction:} introduce the subject area of your project and why it is interesting. Perhaps briefly indicate the techniques your group applied. ($\sim$2 minutes)
+    \item \textbf{Results:} provide an overview of the results of your project. You don't need to showcase all of the code, but report the main results and how they are meaningful to the subject area. ($\sim$5 minutes)
+    \item \textbf{Conclusion:} provide a summary of your findings and what your group learned about the subject area. ($\sim$1 minute)
+\end{enumerate}
+
+\newpage
+
+\section{Maximum Likelihood Estimation (MLE)}
+\begin{Schunk}
+\begin{Sinput}
+> diabetes <- read.csv("Group Project/dat/diabetes.csv", header = TRUE)

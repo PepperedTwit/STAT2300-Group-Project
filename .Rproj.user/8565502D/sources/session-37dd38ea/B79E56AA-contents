@@ -1,6 +1,6 @@
 #STAT2300 Report
 
-diabetes <- read.csv("dat/diabetes.csv", header = TRUE)
+diabetes <- read.csv("Group Project/dat/diabetes.csv", header = TRUE)
 head(diabetes)
 
 neg_log_likelihood <- function(params, data) {
@@ -98,19 +98,3 @@ cat("p-value:", p_value, "\n")
 # so many were redundant which concludes through testing and general reasoning
 # that adding additional variables will contribute to the accuracy of the model
 
-# List of predictor variables (excluding the target variable)
-predictor_vars <- c("age", "sex", "bmi", "bp", "s1", "s2", "s3", "s4", "s5", "s6")
-
-# Calculate the correlation between each predictor and the target
-correlations <- sapply(predictor_vars, function(var) {
-  cor(diabetes[[var]], diabetes$target)
-})
-
-# Print the correlation coefficients
-correlations
-
-# Rank variables by absolute correlation
-correlations_sorted <- sort(abs(correlations), decreasing = TRUE)
-
-# Print the ranked correlations
-correlations_sorted
