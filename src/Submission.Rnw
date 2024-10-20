@@ -327,7 +327,7 @@ correlations_sorted <- sort(abs(correlations), decreasing = TRUE)
 # Print the ranked correlations
 correlations_sorted
 @
-This shows the most important variable is BMI, followed by possibly log of serum triglycerides level, and the blood pressure, which is a common factor in diabetes progression. The least important variable is gender as diabetes can manifest in any gender and makes it an irrelevant variable with minimal contribution to the dataset but more for record keep purposes.
+This shows the most important variable is BMI, followed by possibly log of serum triglycerides level, and the blood pressure, which is a common factor in diabetes progression. The least important variable is gender as diabetes can manifest in any gender and makes it an irrelevant variable with minimal contribution to the dataset but more for record keeping purposes however, the high-density lipoproteins have a negative correlation to the target variable which is interesting as we could infer that the HDL does still have an average correlation compared to the rest of the data but based on there being less rather than more.
 
 \section{Confidence Intervals using the Newton-Raphson Method}
 
